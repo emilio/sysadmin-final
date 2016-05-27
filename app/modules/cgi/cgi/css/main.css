@@ -18,6 +18,7 @@ input::-moz-focus-inner { border: 0; padding: 0; }
 form,
 .status-table,
 .error,
+.welcome,
 .success {
   max-width: 30em;
   margin: 1em auto;

@@ -1,0 +1,34 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Localhost S.L.</title>
+<link rel="stylesheet" href="main.css">
+<main>
+  <header>
+    <h1>Localhost S.L.</h1>
+    <h2>System Administration and Networking</h2>
+  </header>
+  <p>
+    Localhost S.L. is the main system administration company.
+  </p>
+  <p class="trusted">
+    Trusted by: <span class="count">1</span><br>people in the whole Internet.
+  </p>
+  <ul class="services">
+    <li><a href="/cgi/login.pl">Login</a>
+    <li><a href="/cgi/register.pl">Register</a>
+    <li><a href="/moodle">Moodle</a>
+    <li><a href="/mftp">FTP access</a>
+    <li><a href="/rc">Mail</a>
+  </ul>
+  <footer class="footnote">
+    And for good reason.
+  </footer>
+</main>
+<script>
+  // Blink or die ;-)
+  var count = document.querySelector('.count');
+  setTimeout(function f() {
+    count.style.visibility = count.style.visibility == "" ? "hidden" : "";
+    setTimeout(f, 500);
+  }, 300);
+</script>

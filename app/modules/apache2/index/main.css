@@ -1,0 +1,80 @@
+@import url(https://fonts.googleapis.com/css?family=Fira+Sans:400,300,300italic,400italic,700,700italic);
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Fira Sans', sans-serif;
+  font-size: 16px;
+  color: #333;
+  text-align: center;
+}
+
+input::-moz-focus-inner { border: 0; padding: 0; }
+
+main {
+  max-width: 30em;
+  margin: 1em auto;
+}
+
+button,
+input[type="submit"],
+button + a,
+input + a {
+  font-size: 16px;
+  font-size: 1rem;
+  text-decoration: none;
+  background: #46c058;
+  color: white;
+  padding: .5em;
+  border: 0;
+  cursor: pointer;
+  transition: background-color .3s ease;
+  border-radius: 3px;
+  font-family: inherit;
+  line-height: 1;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background: #2f803b;
+}
+
+.trusted {
+  background: #333;
+  padding: 1em;
+  border-radius: .5em;
+  color: white;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.trusted::after {
+  font-size: .5em;
+  vertical-align: super;
+  content: "*";
+}
+
+.services {
+  list-style-type: none;
+  text-align: center;
+}
+
+.services li {
+  display: inline-block;
+}
+
+.services li + li::before {
+  display: inline-block;
+  content: " - ";
+}
+
+.footnote {
+  border-top: 1px solid #333;
+  text-align: left;
+}
+
+.footnote::before {
+  content: "*";
+  font-size: .9em;
+  vertical-align: super;
+}

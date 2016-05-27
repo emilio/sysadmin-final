@@ -13,7 +13,7 @@ my $template = new CGI::Template();
 my $session = new CGI::Session("id:md5", $request, {Directory=>'/tmp'});
 if ($session->param("user_name")) {
   print $request->redirect("profile.pl");
-  return;
+  exit 0;
 }
 
 print $template->header(-cookie => $session->cookie);
