@@ -13,13 +13,10 @@ use Api::Client;
 
 my $request = new CGI();
 my $template = new CGI::Template();
-my $sessid = $request->cookie("sessid") || undef;
-if ($sessid) {
-  my $session = new CGI::Session("driver:File", $sessid, {Directory=>'/tmp'});
-  if ($session->param("user_name")) {
-    print $request->redirect("profile.pl");
-    exit(0);
-  }
+my $session = new CGI::Session("id:md5", $request, {Directory=>'/tmp'});
+if ($session->param("user_name")) {
+  print $request->redirect("profile.pl");
+  exit(0);
 }
 
 # TODO: Actually validate and register the user here
@@ -71,5 +68,5 @@ if ($request->request_method eq "POST") {
   exit(0)
 }
 
-print $template->header();
+print $template->header(-cookie => $session->cookie);
 print $template->content();

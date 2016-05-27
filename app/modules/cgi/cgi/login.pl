@@ -10,14 +10,11 @@ use CGI::Template;
 my $request = new CGI();
 my $template = new CGI::Template();
 
-my $sessid = $request->cookie("sessid") || undef;
-if ($sessid) {
-  my $session = new CGI::Session("driver:File", $sessid, {Directory=>'/tmp'});
-  if ($session->param("user_name")) {
-    print $request->redirect("profile.pl");
-    return;
-  }
+my $session = new CGI::Session("id:md5", $request, {Directory=>'/tmp'});
+if ($session->param("user_name")) {
+  print $request->redirect("profile.pl");
+  return;
 }
 
-print $template->header();
+print $template->header(-cookie => $session->cookie);
 print $template->content();

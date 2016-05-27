@@ -13,17 +13,9 @@ use Api::Client;
 
 my $request = new CGI();
 my $template = new CGI::Template();
-my $new_cookie;
 my $error = "";
 
-my $sessid = $request->cookie("sessid") || undef;
-my $session = new CGI::Session("driver:File", $sessid, {Directory=>'/tmp'});
-if (not defined $sessid) {
-  $new_cookie = $request->cookie(-name => "sessid",
-                                 -value => $session->id());
-}
-$sessid = $session->id();
-
+my $session = new CGI::Session("id:md5", $request, {Directory=>'/tmp'});
 my $user_name = $session->param("user_name");
 my $login_token = $session->param("login_token");
 
@@ -105,12 +97,7 @@ if ($request->request_method eq "POST" and ($action = $request->param("action"))
   }
 }
 
-if (defined $new_cookie) {
-  print $template->header(-cookie => $new_cookie);
-} else {
-  print $template->header();
-}
-
+print $template->header(-cookie => $session->cookie);
 my %data = $api_client->get_user_data($user_name);
 
 my $success = "";
@@ -126,5 +113,4 @@ print $template->content(
   EMAIL => $data{"email"},
   ADDRESS => encode_entities($data{"address"}),
   USER_NAME => $user_name,
-  SESSID => $sessid
 );
