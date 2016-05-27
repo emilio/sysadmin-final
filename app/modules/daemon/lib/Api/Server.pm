@@ -10,6 +10,7 @@ use File::Copy::Recursive qw(dircopy);
 use File::Copy qw(move);
 use File::Path qw(make_path remove_tree);
 use File::Finder;
+use Quota;
 
 my @ALLOWED_GROUPS = ("teachers", "alumns");
 
@@ -278,8 +279,8 @@ sub create_user {
   my $groupname = $type . "s";
   if (!group_exists($groupname)) {
     Linux::usermod->grpadd($groupname);
-    create_shared_folder() if $type eq "teacher";
   }
+  maybe_create_shared_folder() if $type eq "teacher";
 
   my $group = Linux::usermod->new($groupname, 1);
 
@@ -289,14 +290,21 @@ sub create_user {
 
   $group->set("users", join(" ", @group_users));
 
+  my $quotadev = Quota::getqcarg("/home");
+  Quota::setqlim($quotadev, $user->get("uid"), 80000, 80000, 0, 0);
+
   return 1;
 }
 
 # This creates the shared folder once a teacher has been created
 # TODO: Don't hardcode shit here
-sub create_shared_folder {
+sub maybe_create_shared_folder {
   die("teachers group should exist") unless group_exists("teachers");
   my $shared_dir = "/etc/sysadmin-app/apuntes";
+  if (-d $shared_dir) {
+    return;
+  }
+
   remove_tree($shared_dir);
   make_path($shared_dir, { owner => "root", group => "teachers" });
   chmod(0775, $shared_dir);

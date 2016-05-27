@@ -4,7 +4,7 @@ use warnings;
 use Api::Client;
 use Data::Dumper;
 
-use Test::Most tests => 31, 'die';
+use Test::Most tests => 32, 'die';
 
 my $client = new Api::Client();
 
