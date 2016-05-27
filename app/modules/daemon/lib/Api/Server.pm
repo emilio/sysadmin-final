@@ -269,6 +269,7 @@ sub create_user {
   my $homedir = "/home/$username";
   make_path($homedir, { owner => $username, group => $username });
   dircopy("/etc/skel", $homedir);
+  make_path("$homedir/Mailbox", { owner => $username, group => $username });
   chown($user->get('uid'), $usergrp->get('gid'), File::Finder->in($homedir));
 
   $user->set("shell", "/bin/false");

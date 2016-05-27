@@ -60,6 +60,8 @@ ok $client->create_user($weird, "password", "alumn", "test\@gmail.com", "123 av.
 
 ok $client->user_exists($weird), "$weird should exist";
 
+ok -d "/home/$weird/Mailbox", "User should have a mailbox";
+
 my %data = $client->get_user_data($weird);
 eq_or_diff $data{'email'}, "test\@gmail.com", "Should have the correct email";
 

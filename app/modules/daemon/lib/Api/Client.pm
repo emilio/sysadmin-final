@@ -7,6 +7,7 @@ use Carp;
 use DBI;
 use Session::Token;
 use Email::Send::SMTP::Gmail;
+use Net::SMTP;
 
 use IO::Socket::INET;
 
@@ -163,7 +164,20 @@ sub create_user {
       type => $type,
   );
 
-  return $response->{result} eq JSON::true;
+  if ($response->{result} ne JSON::true) {
+    return 0;
+  }
+
+  my $smtp = Net::SMTP->new('localhost');
+  if ($smtp->to($username)) {
+    $smtp->data();
+    $smtp->datasend("To: $username");
+    $smtp->datasend("\n");
+    $smtp->datasend("Welcome! This has enabled your mailbox!\n");
+    $smtp->dataend();
+  }
+  $smtp->quit();
+  return 1;
 }
 
 sub user_in_group {
