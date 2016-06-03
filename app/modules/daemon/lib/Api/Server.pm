@@ -272,7 +272,6 @@ sub create_user {
   make_path($homedir, { owner => $username, group => $username });
   dircopy("/etc/skel", $homedir);
   make_path("$homedir/Mailbox", { owner => $username, group => $username });
-  chown($user->get('uid'), $usergrp->get('gid'), File::Finder->in($homedir));
 
   $user->set("shell", "/bin/false");
   $user->set("home", $homedir);
@@ -296,6 +295,7 @@ sub create_user {
 
   # Try creating the maildir, ignore the error
   Mail::Box::Maildir->create("$homedir/Maildir");
+  chown($user->get('uid'), $usergrp->get('gid'), File::Finder->in($homedir));
 
   return 1;
 }
