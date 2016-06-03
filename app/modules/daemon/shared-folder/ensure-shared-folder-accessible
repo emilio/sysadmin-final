@@ -74,6 +74,9 @@ for user in $USERS; do
   fi
 done
 
+# Pickup potentially new directories
+service apache2 restart
+
 # Find mountpoints of dead users
 mounted_dirs=$(mount | grep -e "/home/.*/apuntes" --only-matching)
 for directory in $mounted_dirs; do

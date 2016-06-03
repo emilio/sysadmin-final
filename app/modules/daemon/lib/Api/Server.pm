@@ -10,6 +10,7 @@ use File::Copy::Recursive qw(dircopy);
 use File::Copy qw(move);
 use File::Path qw(make_path remove_tree);
 use File::Finder;
+use Mail::Box::Maildir;
 use Quota;
 
 my @ALLOWED_GROUPS = ("teachers", "alumns");
@@ -292,6 +293,9 @@ sub create_user {
 
   my $quotadev = Quota::getqcarg("/home");
   Quota::setqlim($quotadev, $user->get("uid"), 80000, 80000, 0, 0);
+
+  # Try creating the maildir, ignore the error
+  Mail::Box::Maildir->create("$homedir/Maildir");
 
   return 1;
 }
